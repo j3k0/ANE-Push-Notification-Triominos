@@ -47,6 +47,12 @@ package com.freshplanet.nativeExtensions
 			}
 		}
 		
+		public function log(s:String):void
+		{
+			if (Capabilities.manufacturer.search('Android') > -1) {
+                extCtx.call("log", s);
+            }
+		}
 		
 		public function get isPushNotificationSupported():Boolean
 		{
