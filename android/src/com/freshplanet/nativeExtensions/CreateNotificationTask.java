@@ -3,6 +3,7 @@ package com.freshplanet.nativeExtensions;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -123,6 +124,39 @@ public class CreateNotificationTask extends AsyncTask<Void, Void, Boolean>
 		}
 	}
 
+	private String readStringByName(String key, String args, String failoverKey, String failoverString)
+	{
+		CharSequence str = _intent.getStringExtra(key);
+		int resId = -1;
+		if (str == null)
+		{
+			Extension.log("Can't find argument with key: " + key);
+		}
+		else
+		{
+			Extension.log("argument with key " + key + " has value " + str);
+			resId = Resources.getResourseIdByName(_context.getPackageName(), "string", str.toString());
+		}
+
+		if (resId < 0)
+		{
+			Extension.log("Can't find resource with name: " + str);
+			resId = Resources.getResourseIdByName(_context.getPackageName(), "string", failoverKey);
+		}
+
+		String res = (resId >= 0)
+			? _context.getResources().getString(resId)
+			: failoverString;
+
+		String strArg = _intent.getStringExtra(args);
+		return res.replace("%1", safeString(strArg));
+	}
+
+	private String safeString(String str)
+	{
+		return str == null ? "" : str;
+	}
+
 	@Override
 	protected void onPostExecute(Boolean downloadSuccess)
 	{
@@ -131,18 +165,19 @@ public class CreateNotificationTask extends AsyncTask<Void, Void, Boolean>
 			Extension.log("Couldn't create push notification: _context or _intent was null (CreateNotificationTask.onPostExecute)");
 			return;
 		}
-		
+
 		// Notification texts
-		CharSequence contentTitle = _intent.getStringExtra("contentTitle");
+		String contentTitle = readStringByName("title_loc_key", "title_loc_args", "your_turn_title", "Triominos");
 		if (contentTitle.length() > 22)
 		{
-			contentTitle = contentTitle.subSequence(0, 20) + "...";
+			contentTitle = contentTitle.substring(0, 20) + "...";
 		}
-		CharSequence contentText = _intent.getStringExtra("contentText");
-		CharSequence tickerText = _intent.getStringExtra("tickerText");
-		
+
+		String contentText = readStringByName("body_loc_key", "body_loc_args", "your_turn_message", "It's your turn.");
+		String tickerText = "Triominos - " + contentTitle;
+
 		String largeIconResourceId = _intent.getStringExtra("largeIconResourceId");
-		
+
 		// Notification images
 		int smallIconId = Resources.getResourseIdByName(_context.getPackageName(), "drawable", "status_icon");
 		int largeIconId = Resources.getResourseIdByName(_context.getPackageName(), "drawable", "app_icon");
