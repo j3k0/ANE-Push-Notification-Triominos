@@ -1,6 +1,7 @@
 # General
 temp
 build.config
+bin/AirPushNotification.ane
 
 # Flash Builder
 actionscript/bin
