@@ -2,6 +2,7 @@
 temp
 build.config
 bin/AirPushNotification.ane
+build/AirPushNotification.ane.ok
 
 # Flash Builder
 actionscript/bin
