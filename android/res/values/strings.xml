@@ -8,4 +8,6 @@
     <string name="game_over_message">Your game against %1 is finished, check it out!</string>
     <string name="opponent_has_left_title">Game Ended</string>
     <string name="opponent_has_left_message">%1 has resigned from the game.</string>
+    <string name="new_message_title">%1</string>
+    <string name="new_message_message">%1</string>
 </resources>
