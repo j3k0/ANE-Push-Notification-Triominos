@@ -167,14 +167,14 @@ public class CreateNotificationTask extends AsyncTask<Void, Void, Boolean>
 		}
 
 		// Notification texts
-		String contentTitle = readStringByName("title_loc_key", "title_loc_args", "your_turn_title", "Triominos");
+		String contentTitle = readStringByName("title_loc_key", "title_loc_args", "your_turn_title", "Word Search");
 		if (contentTitle.length() > 22)
 		{
 			contentTitle = contentTitle.substring(0, 20) + "...";
 		}
 
 		String contentText = readStringByName("body_loc_key", "body_loc_args", "your_turn_message", "It's your turn.");
-		String tickerText = "Triominos - " + contentTitle;
+		String tickerText = "Word Search - " + contentTitle;
 
 		String largeIconResourceId = _intent.getStringExtra("largeIconResourceId");
 
