@@ -321,10 +321,14 @@ package com.freshplanet.ane.AirPushNotification {
          * @param strings
          */
         private function _log(...strings):void {
-
             if (logEnabled) {
-
-                strings.unshift(EXTENSION_ID);
+                strings.unshift('[AirPushNotification][AS3]');
+                trace.apply(null, strings);
+            }
+        }
+        private function _logNative(...strings):void {
+            if (logEnabled) {
+                strings.unshift('[AirPushNotification][NATIVE]');
                 trace.apply(null, strings);
             }
         }
@@ -461,7 +465,7 @@ package com.freshplanet.ane.AirPushNotification {
 					event.errorMessage = data;
 					break;
                 case "LOGGING":
-                    trace(e, e.level);
+                    _logNative(e.level);
                     break;
 
             }

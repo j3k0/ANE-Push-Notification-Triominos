@@ -110,7 +110,6 @@ public class Extension implements FREExtension {
 	}
 	
 	public void initialize() {
-
 	}
 	
 	public static void logToAIR(String message)

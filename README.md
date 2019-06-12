@@ -36,7 +36,7 @@ You should also update your manifest with:
 		
 		<application>
 
-			<activity android:name="com.freshplanet.nativeExtensions.NotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+			<activity android:name="com.freshplanet.ane.AirPushNotification.NotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 			
 			<receiver android:name="com.freshplanet.nativeExtensions.C2DMBroadcastReceiver"
 				android:permission="com.google.android.c2dm.permission.SEND">

@@ -15,17 +15,19 @@
 package com.freshplanet.ane.AirPushNotification;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.FirebaseApp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,9 +35,9 @@ import java.util.Map;
 public class ExtensionContext extends FREContext {
 
 	public static FCMMessagingService messagingService;
+    public static AirFirebaseMessagingService messagingService2;
 
 	public ExtensionContext() {
-
     }
 	
 	@Override
@@ -70,6 +72,8 @@ public class ExtensionContext extends FREContext {
 		@Override
 		public FREObject call(FREContext freContext, FREObject[] freObjects) {
 		try {
+                // Log.d(Extension.TAG, "registerPush()");
+                Extension.logToAIR("registerPush()");
 				Context appContext = freContext.getActivity().getApplicationContext();
 				if(NotificationManagerCompat.from(appContext).areNotificationsEnabled()) {
 					Extension.context.dispatchStatusEventAsync("NOTIFICATION_SETTINGS_ENABLED", "");
@@ -77,33 +81,65 @@ public class ExtensionContext extends FREContext {
 				else {
 					Extension.context.dispatchStatusEventAsync("NOTIFICATION_SETTINGS_DISABLED", "");
 				}
-				Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                // Extension.logToAIR("initializing FirebaseApp");
+				// FirebaseApp.initializeApp(appContext);
+
+                if (FirebaseApp.getInstance() == null) {
+                    Extension.logToAIR("WARNING: Firebase.App is null!");
+                }
+                if (FirebaseInstanceId.getInstance(FirebaseApp.getInstance()) == null) {
+                    Extension.logToAIR("WARNING: Firebase.InstanceId is null!");
+                    return null;
+                }
+
+                Extension.logToAIR("Firebase.InstanceId.addOnSuccessListener()");
+                FirebaseInstanceId
+                    .getInstance()
+                    .getInstanceId()
+                    .addOnSuccessListener(freContext.getActivity(), new OnSuccessListener<InstanceIdResult>() {
+
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                        String newToken = instanceIdResult.getToken();
+                        Extension.logToAIR("Firebase.InstanceId.onSuccess() token: " + newToken);
+                    }
+                });
+
+				// Task<InstanceIdResult> task =
+                Extension.logToAIR("FirebaseInstanceId.addOnCompleteListener()");
+                FirebaseInstanceId
+                    .getInstance()
+                    .getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
 
 					@Override
 					public void onComplete(@NonNull Task<InstanceIdResult> task) {
 						if (!task.isSuccessful()) {
 							Exception e = task.getException();
-							Log.w("firebase", "getInstanceId failed", e);
+							Extension.logToAIR("Firebase.InstanceId.onComplete() FAILED with error: " + e);
 							Extension.context.dispatchStatusEventAsync("TOKEN_FAIL", e.getMessage());
 							return;
 						}
 						// Get new Instance ID token
 						String token = task.getResult().getToken();
 						if (token != null) {
+                            Extension.logToAIR("Firebase.InstanceId.onComplete() token: " + token);
 							Extension.context.dispatchStatusEventAsync("TOKEN_SUCCESS", token);
 						} else {
+                            Log.d(Extension.TAG, "Firebase.InstanceId.onComplete() NO TOKEN");
 							Extension.context.dispatchStatusEventAsync("TOKEN_FAIL", "NULL_TOKEN");
 						}
 					}
 				});
-
-				Boolean complete = task.isComplete();
-				Boolean canceled = task.isCanceled();
-				Boolean successful = task.isSuccessful();
+				// Boolean complete = task.isComplete();
+				// Boolean canceled = task.isCanceled();
+				// Boolean successful = task.isSuccessful();
 			} catch (Exception e) {
-				Log.e("firebase", "error", e);
+				Log.e(Extension.TAG, "Firebase ERROR", e);
+                Extension.logToAIR("Firebase ERROR: " + e);
 			}
 			return null;
 		}
 	};
 }
+
