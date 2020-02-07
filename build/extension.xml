@@ -38,6 +38,14 @@
                 <finalizer>com.freshplanet.nativeExtensions.Extension</finalizer> 
             </applicationDeployment> 
         </platform> 
+
+        <platform name="Android-ARM64"> 
+            <applicationDeployment> 
+                <nativeLibrary>libAirPushNotification.jar</nativeLibrary> 
+                <initializer>com.freshplanet.nativeExtensions.Extension</initializer> 
+                <finalizer>com.freshplanet.nativeExtensions.Extension</finalizer> 
+            </applicationDeployment> 
+        </platform> 
     
         <platform name="default"> 
             <applicationDeployment/> 
