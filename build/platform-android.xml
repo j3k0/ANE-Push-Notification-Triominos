@@ -16,7 +16,7 @@
 //  
 //////////////////////////////////////////////////////////////////////////////////////-->
 
-<platform xmlns="http://ns.adobe.com/air/extension/22.0">
+<platform xmlns="http://ns.adobe.com/air/extension/33.1">
     <packagedDependencies>
 <!-- uncomment these if you aren't already packaging them in some other ane -->
 <!--    

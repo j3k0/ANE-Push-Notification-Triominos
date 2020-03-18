@@ -16,7 +16,7 @@
 //  
 //////////////////////////////////////////////////////////////////////////////////////-->
 
-<extension xmlns="http://ns.adobe.com/air/extension/22.0">
+<extension xmlns="http://ns.adobe.com/air/extension/33.1">
     <id>com.freshplanet.ane.AirPushNotification</id>
     <versionNumber>2.0.0</versionNumber>
     <platforms>
