@@ -68,17 +68,19 @@ Usage
 -----
 
 ```actionscript
+import com.freshplanet.ane.AirPushNotification.PushNotification;
+import com.freshplanet.ane.AirPushNotification.PushNotificationEvent;
 
 // Register the device for a push notifications
 // GOOGLE_PROJECT_ID is necessary only on Android and is your project's ID on GCM.
 // On iOS, you can call the method with no parameter.
-PushNotification.getInstance().registerForPushNotification(GOOGLE_PROJECT_ID);
+PushNotification.instance.registerForPushNotification(GOOGLE_PROJECT_ID);
 
 // Register for events
-PushNotification.getInstance().addEventListener(PushNotificationEvent.PERMISSION_GIVEN_WITH_TOKEN_EVENT, onPushNotificationToken);
-PushNotification.getInstance().addEventListener(PushNotificationEvent.NOTIFICATION_RECEIVED_WHEN_IN_FOREGROUND_EVENT, onNotificationReceivedInForeground);
-PushNotification.getInstance().addEventListener( PushNotificationEvent.APP_BROUGHT_TO_FOREGROUND_FROM_NOTIFICATION_EVENT, onNotificationReceivedInBackground);
-PushNotification.getInstance().addListenerForStarterNotifications(onNotificationReceivedStartingTheApp);
+PushNotification.instance.addEventListener(PushNotificationEvent.PERMISSION_GIVEN_WITH_TOKEN_EVENT, onPushNotificationToken);
+PushNotification.instance.addEventListener(PushNotificationEvent.NOTIFICATION_RECEIVED_WHEN_IN_FOREGROUND_EVENT, onNotificationReceivedInForeground);
+PushNotification.instance.addEventListener(PushNotificationEvent.APP_BROUGHT_TO_FOREGROUND_FROM_NOTIFICATION_EVENT, onNotificationReceivedInBackground);
+PushNotification.instance.addListenerForStarterNotifications(onNotificationReceivedStartingTheApp);
 
 // Handle events
 function onPushNotificationToken(event:PushNotificationEvent):void
@@ -87,6 +89,15 @@ function onPushNotificationToken(event:PushNotificationEvent):void
 }
 // other event handlers also receive a PushNotificationEvent
 
+// PushNotification.instance.setIsAppInForeground(isForeground:Bool, suiteName:String);
+// - suiteName: cf https://developer.apple.com/documentation/foundation/nsuserdefaults/1409957-initwithsuitename
+PushNotification.instance.setIsAppInForeground(true, "some.domain");
+NativeApplication.nativeApplication.addEventListener(flash.events.Event.ACTIVATE, function (e:*):void {
+    PushNotification.instance.setIsAppInForeground(true, "some.domain");
+});
+NativeApplication.nativeApplication.addEventListener(flash.events.Event.DEACTIVATE, function (e:*):void {
+    PushNotification.instance.setIsAppInForeground(false, "some.domain");
+});
 ```
 
 Packaging final app for Android
