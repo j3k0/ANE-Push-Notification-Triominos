@@ -43,6 +43,12 @@ package com.freshplanet.ane.AirPushNotification {
          */
         public static var logEnabled:Boolean = false;
 
+        public function log(s:String):void {
+            if (_isAndroid()) {
+                callContext("log", s);
+            }
+        }
+
         /**
          *
          */

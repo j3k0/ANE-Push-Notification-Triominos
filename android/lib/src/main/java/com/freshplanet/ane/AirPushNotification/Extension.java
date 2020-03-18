@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Extension implements FREExtension {
 
-	private static String TAG = "AirPushNotification";
+	public static String TAG = "AirPushNotification";
 
 	public static final String PREFS_NAME = "UrlPrefFile";
 	public static final String PREFS_KEY = "trackUrl";
