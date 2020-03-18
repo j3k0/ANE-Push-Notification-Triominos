@@ -36,6 +36,14 @@
                 <finalizer>com.freshplanet.ane.AirPushNotification.Extension</finalizer> 
             </applicationDeployment> 
         </platform> 
+
+        <platform name="Android-ARM64">
+            <applicationDeployment>
+                <nativeLibrary>libAirPushNotification.jar</nativeLibrary>
+                <initializer>com.freshplanet.ane.AirPushNotification.Extension</initializer>
+                <finalizer>com.freshplanet.ane.AirPushNotification.Extension</finalizer>
+            </applicationDeployment>
+        </platform>
     
         <platform name="default"> 
             <applicationDeployment/> 
