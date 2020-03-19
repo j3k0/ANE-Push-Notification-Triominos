@@ -82,6 +82,7 @@
 
         <!-- make the build directory -->
         <mkdir dir="temp/android"/>
+        <mkdir dir="../android/lib/dependencies"/>
 
         <exec executable="/usr/libexec/java_home" outputproperty="java.home">
             <!-- <arg line="-v 1.8" /> -->
@@ -124,9 +125,9 @@
             </fileset>
         </copy>
 
-        <copy todir="temp/android/basement-res" overwrite="true" failonerror="true">
+        <!-- copy todir="temp/android/basement-res" overwrite="true" failonerror="true">
             <fileset dir="../android/basement-res"/>
-        </copy>
+        </copy-->
         <copy todir="temp/android/res" overwrite="true">
             <fileset dir="${android.res}"/>
         </copy>
@@ -163,7 +164,7 @@
             <env key="AIR_SDK_HOME" value="${air.sdk.home}"/>
             <arg line='-source-path ../actionscript/src'/>
             <arg line='-output temp/swc/${name}.swc'/>
-            <arg line='-swf-version=44'/>
+            <arg line='-swf-version=43'/>
             <arg line='-external-library-path+="${air.sdk.home}/frameworks/libs/air/airglobal.swc"'/>
             <arg line='-include-classes ${classlist}'/>
         </exec>
