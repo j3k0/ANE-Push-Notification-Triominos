@@ -21,30 +21,35 @@ public class AirFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
-        Log.i(Extension.TAG, "[FirebaseMessagingService] onMessageReceived() with" +
-                "\n   id: " + remoteMessage.getMessageId() +
-                "\n type: " + remoteMessage.getMessageType() +
-                "\n from: " + remoteMessage.getFrom() +
-                "\n data: " + remoteMessage.getData());
-        RemoteMessage.Notification notif = remoteMessage.getNotification();
-        if (notif != null) {
-            Log.i(Extension.TAG, "[FirebaseMessagingService] RemoteMessage has a Notification with " +
-                    "\ntitle: " + notif.getTitle() +
-                    "\nbody: " + notif.getBody() +
-                    "\nchannelId: " + notif.getChannelId() +
-                    "\nclickAction: " + notif.getClickAction() +
-                    "\ncolor: " + notif.getColor() +
-                    "\neventTime: " + notif.getEventTime() +
-                    "\nicon: " + notif.getIcon() +
-                    "\nlink: " + notif.getLink() +
-                    "\nsound: " + notif.getSound() +
-                    "\ntag: " + notif.getTag() +
-                    "\nticker: " + notif.getTicker() +
-                    "\ntitleLocKey: " + notif.getTitleLocalizationKey() +
-                    "\ntitleLocArgs: " + notif.getTitleLocalizationArgs() +
-                    "\nbodyLocKey: " + notif.getBodyLocalizationKey() +
-                    "\nbodyLocArgs: " + notif.getBodyLocalizationArgs());
+        try {
+            super.onMessageReceived(remoteMessage);
+            Log.i(Extension.TAG, "[FirebaseMessagingService] onMessageReceived() with" +
+                    "\n   id: " + remoteMessage.getMessageId() +
+                    "\n type: " + remoteMessage.getMessageType() +
+                    "\n from: " + remoteMessage.getFrom() +
+                    "\n data: " + remoteMessage.getData());
+            RemoteMessage.Notification notif = remoteMessage.getNotification();
+            if (notif != null) {
+                Log.i(Extension.TAG, "[FirebaseMessagingService] RemoteMessage has a Notification with " +
+                        "\ntitle: " + notif.getTitle() +
+                        "\nbody: " + notif.getBody() +
+                        "\nchannelId: " + notif.getChannelId() +
+                        "\nclickAction: " + notif.getClickAction() +
+                        "\ncolor: " + notif.getColor() +
+                        "\neventTime: " + notif.getEventTime() +
+                        "\nicon: " + notif.getIcon() +
+                        "\nlink: " + notif.getLink() +
+                        "\nsound: " + notif.getSound() +
+                        "\ntag: " + notif.getTag() +
+                        "\nticker: " + notif.getTicker() +
+                        "\ntitleLocKey: " + notif.getTitleLocalizationKey() +
+                        "\ntitleLocArgs: " + notif.getTitleLocalizationArgs() +
+                        "\nbodyLocKey: " + notif.getBodyLocalizationKey() +
+                        "\nbodyLocArgs: " + notif.getBodyLocalizationArgs());
+            }
+        }
+        catch (Exception e) {
+            Log.w(Extension.TAG, "[FirebaseMessagingService] onMessageReceived() FAILED: " + e.toString());
         }
     }
 } 
