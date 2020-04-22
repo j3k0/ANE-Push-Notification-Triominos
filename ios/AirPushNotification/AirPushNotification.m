@@ -192,7 +192,8 @@ DEFINE_ANE_FUNCTION(registerPush) {
     
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     NSUInteger authOptions = UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge;
-    if (@available(iOS 12.0, *)) {
+    // if (@available(iOS 12.0, *))
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 12.0) {
         authOptions = authOptions | UNAuthorizationOptionProvidesAppNotificationSettings;
     }
     [center requestAuthorizationWithOptions:(authOptions)
@@ -243,7 +244,8 @@ DEFINE_ANE_FUNCTION(registerPush) {
                 
                 UNNotificationAction *notificationAction = [UNNotificationAction actionWithIdentifier:actionId title:NSLocalizedString(actionTitleKey, nil) options:UNNotificationActionOptionForeground];
                 UNNotificationCategory *notificationCategory;
-                if (@available(iOS 12.0, *)) {
+                // if (@available(iOS 12.0, *))
+                if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 12.0) {
                     notificationCategory = [UNNotificationCategory categoryWithIdentifier:categoryId actions:@[notificationAction] intentIdentifiers:@[] hiddenPreviewsBodyPlaceholder:hiddenSummaryKey != nil ? NSLocalizedStringFromTable(hiddenSummaryKey,hiddenSummaryKeyFile, @"") : nil categorySummaryFormat:summaryKey != nil ?  NSLocalizedStringFromTable(summaryKey,summaryKeyFile, @"") : nil options:UNNotificationCategoryOptionNone];
                 }
                 else {
