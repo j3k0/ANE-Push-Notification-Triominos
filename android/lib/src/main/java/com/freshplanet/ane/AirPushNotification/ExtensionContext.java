@@ -81,8 +81,8 @@ public class ExtensionContext extends FREContext {
 				else {
 					Extension.context.dispatchStatusEventAsync("NOTIFICATION_SETTINGS_DISABLED", "");
 				}
-                // Extension.logToAIR("initializing FirebaseApp");
-				// FirebaseApp.initializeApp(appContext);
+				Extension.logToAIR("initializing FirebaseApp");
+				FirebaseApp.initializeApp(appContext);
 
                 if (FirebaseApp.getInstance() == null) {
                     Extension.logToAIR("WARNING: Firebase.App is null!");
